@@ -1,0 +1,71 @@
+import heapq
+
+# Define the goal state
+goal_state = [1, 2, 3, 4, 5, 6, 7, 8, 0]
+
+# Define the initial state (you can modify this to test different scenarios)
+initial_state = [1, 2, 3, 4, 5, 6, 0, 7, 8]
+
+# Heuristic function: Manhattan distance
+def manhattan_distance(state):
+    distance = 0
+    for i in range(9):
+        if state[i] == 0:
+            continue
+        x1, y1 = divmod(i, 3)
+        x2, y2 = divmod(state[i] - 1, 3)
+        distance += abs(x1 - x2) + abs(y1 - y2)
+    return distance
+
+# Find the index of the empty tile (0)
+def find_zero(state):
+    return state.index(0)
+
+# Generate possible moves
+def get_neighbors(state):
+    neighbors = []
+    zero_pos = find_zero(state)
+    zero_row, zero_col = divmod(zero_pos, 3)
+
+    moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    for move in moves:
+        new_row, new_col = zero_row + move[0], zero_col + move[1]
+        if 0 <= new_row < 3 and 0 <= new_col < 3:
+            new_pos = new_row * 3 + new_col
+            new_state = state[:]
+            new_state[zero_pos], new_state[new_pos] = new_state[new_pos], new_state[zero_pos]
+            neighbors.append(new_state)
+
+    return neighbors
+
+# A* search algorithm
+def a_star_search(initial_state):
+    priority_queue = []
+    heapq.heappush(priority_queue, (manhattan_distance(initial_state), 0, initial_state, []))
+    visited = set()
+
+    while priority_queue:
+        _, moves, current_state, path = heapq.heappop(priority_queue)
+
+        if current_state == goal_state:
+            return path + [current_state]
+
+        visited.add(tuple(current_state))
+
+        for neighbor in get_neighbors(current_state):
+            if tuple(neighbor) not in visited:
+                heapq.heappush(priority_queue, (manhattan_distance(neighbor) + moves + 1, moves + 1, neighbor, path + [current_state]))
+
+    return None
+
+# Solve the puzzle
+solution = a_star_search(initial_state)
+
+if solution:
+    print("Solution found in", len(solution) - 1, "moves:")
+    for step in solution:
+        for i in range(0, 9, 3):
+            print(step[i:i+3])
+        print()
+else:
+    print("No solution found.")
