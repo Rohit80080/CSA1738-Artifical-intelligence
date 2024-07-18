@@ -1,0 +1,36 @@
+# Define the size of the board
+N = 8
+
+# Initialize the board with empty spaces
+board = [['.' for _ in range(N)] for _ in range(N)]
+
+# Helper variables to track columns and diagonals
+cols = [0] * N
+diag1 = [0] * (2 * N - 1)
+diag2 = [0] * (2 * N - 1)
+
+# Solve the 8-Queen problem using backtracking
+def solve(board, row):
+    if row == N:
+        # Print the solution
+        for line in board:
+            print(" ".join(line))
+        print()
+        return True
+    found_solution = False
+    for col in range(N):
+        if not cols[col] and not diag1[row + col] and not diag2[row - col + N - 1]:
+            # Place the queen
+            board[row][col] = 'Q'
+            cols[col] = diag1[row + col] = diag2[row - col + N - 1] = 1
+            
+            # Recur to place the rest of the queens
+            found_solution = solve(board, row + 1) or found_solution
+            
+            # Backtrack
+            board[row][col] = '.'
+            cols[col] = diag1[row + col] = diag2[row - col + N - 1] = 0
+    return found_solution
+
+# Start solving from the first row
+solve(board, 0)
