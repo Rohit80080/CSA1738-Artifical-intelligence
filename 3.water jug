@@ -1,0 +1,58 @@
+from collections import deque
+
+# Capacities of the two jugs
+jug1_capacity = 4  # Capacity of the first jug (example)
+jug2_capacity = 3  # Capacity of the second jug (example)
+target = 2         # Target amount of water to measure (example)
+
+# Initial state
+initial_state = (0, 0)
+
+# To track visited states
+visited = set()
+visited.add(initial_state)
+
+# Queue for BFS
+queue = deque([(initial_state, [])])
+
+while queue:
+    (current_jug1, current_jug2), path = queue.popleft()
+    
+    # Check if we have reached the goal
+    if current_jug1 == target or current_jug2 == target:
+        path.append((current_jug1, current_jug2))
+        print("Solution found:")
+        for state in path:
+            print(state)
+        break
+
+    # Generate possible next states
+    next_states = []
+    
+    # Fill jug1
+    next_states.append((jug1_capacity, current_jug2))
+    
+    # Fill jug2
+    next_states.append((current_jug1, jug2_capacity))
+    
+    # Empty jug1
+    next_states.append((0, current_jug2))
+    
+    # Empty jug2
+    next_states.append((current_jug1, 0))
+    
+    # Pour jug1 into jug2
+    transfer = min(current_jug1, jug2_capacity - current_jug2)
+    next_states.append((current_jug1 - transfer, current_jug2 + transfer))
+    
+    # Pour jug2 into jug1
+    transfer = min(current_jug2, jug1_capacity - current_jug1)
+    next_states.append((current_jug1 + transfer, current_jug2 - transfer))
+    
+    # Process the next states
+    for state in next_states:
+        if state not in visited:
+            visited.add(state)
+            queue.append((state, path + [(current_jug1, current_jug2)]))
+else:
+    print("No solution found.")
