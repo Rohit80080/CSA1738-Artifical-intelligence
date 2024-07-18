@@ -1,0 +1,46 @@
+import random
+
+# Initialize the environment: 2x2 grid with random dirt
+environment = [[random.choice([True, False]) for _ in range(2)] for _ in range(2)]
+
+# Random initial location of the vacuum cleaner
+location = (random.randint(0, 1), random.randint(0, 1))
+
+# Function to print the current state of the environment
+def print_environment():
+    for row in environment:
+        print(" ".join("D" if cell else "-" for cell in row))
+    print()
+
+# Print the initial state of the environment
+print("Initial environment:")
+print_environment()
+
+# Clean the environment
+while any(any(row) for row in environment):
+    if environment[location[0]][location[1]]:
+        print(f"Cleaning at {location}")
+        environment[location[0]][location[1]] = False
+    else:
+        print(f"No dirt at {location}")
+
+    # Move to a random adjacent cell
+    possible_moves = []
+    if location[0] > 0:
+        possible_moves.append((-1, 0))  # Move up
+    if location[0] < 1:
+        possible_moves.append((1, 0))   # Move down
+    if location[1] > 0:
+        possible_moves.append((0, -1))  # Move left
+    if location[1] < 1:
+        possible_moves.append((0, 1))   # Move right
+
+    move = random.choice(possible_moves)
+    location = (location[0] + move[0], location[1] + move[1])
+
+    # Print the current state of the environment after moving
+    print(f"Moving to {location}")
+    print("Updated environment:")
+    print_environment()
+
+print("Cleaning completed!")
