@@ -1,0 +1,33 @@
+import itertools
+
+# Define the letters used in the crypt-arithmetic problem
+letters = 'SENDMORY'
+
+# Define the set of digits
+digits = '0123456789'
+
+# Function to check if the current mapping of letters to digits solves the equation
+def is_solution(mapping):
+    S, E, N, D, M, O, R, Y = (mapping[c] for c in 'SENDMORY')
+    send = 1000*S + 100*E + 10*N + D
+    more = 1000*M + 100*O + 10*R + E
+    money = 10000*M + 1000*O + 100*N + 10*E + Y
+    return send + more == money
+
+# Iterate over all permutations of 10 digits taken 8 at a time
+for perm in itertools.permutations(digits, len(letters)):
+    # Create a mapping from letters to the current permutation of digits
+    mapping = dict(zip(letters, map(int, perm)))
+
+    # Skip permutations where any letter maps to a leading zero
+    if mapping['S'] == 0 or mapping['M'] == 0:
+        continue
+
+    # Check if this mapping is a solution
+    if is_solution(mapping):
+        print("Solution found:")
+        for letter in letters:
+            print(f"{letter} = {mapping[letter]}")
+        break
+else:
+    print("No solution found.")
