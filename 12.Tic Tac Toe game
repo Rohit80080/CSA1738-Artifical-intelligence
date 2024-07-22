@@ -1,0 +1,69 @@
+# Create an empty 3x3 board
+board = [[' ' for _ in range(3)] for _ in range(3)]
+
+# List of players
+players = ['X', 'O']
+turn = 0  # Start with player 0
+
+# Main game loop
+while True:
+    # Print the board
+    for row in board:
+        print(" | ".join(row))
+        print("-" * 5)
+    
+    # Determine the current player
+    current_player = players[turn % 2]
+    print(f"Player {current_player}'s turn.")
+    
+    # Get the player's move
+    try:
+        row, col = map(int, input("Enter row and column numbers (0, 1, or 2): ").split())
+        if board[row][col] != ' ':
+            print("Cell already taken. Try again.")
+            continue
+    except (ValueError, IndexError):
+        print("Invalid input. Enter two numbers between 0 and 2 separated by a space.")
+        continue
+    
+    # Place the player's mark on the board
+    board[row][col] = current_player
+    
+    # Check for a win
+    win = False
+    # Check rows
+    for row in board:
+        if row.count(current_player) == 3:
+            win = True
+            break
+    # Check columns
+    if not win:
+        for col in range(3):
+            if [board[row][col] for row in range(3)].count(current_player) == 3:
+                win = True
+                break
+    # Check diagonals
+    if not win:
+        if [board[i][i] for i in range(3)].count(current_player) == 3 or \
+           [board[i][2 - i] for i in range(3)].count(current_player) == 3:
+            win = True
+    
+    # Check for a draw
+    draw = all(cell != ' ' for row in board for cell in row)
+    
+    # Print the final board and end the game if needed
+    if win:
+        for row in board:
+            print(" | ".join(row))
+            print("-" * 5)
+        print(f"Player {current_player} wins!")
+        break
+    if draw:
+        for row in board:
+            print(" | ".join(row))
+            print("-" * 5)
+        print("The game is a draw.")
+        break
+    
+    # Switch turns
+    turn += 1
