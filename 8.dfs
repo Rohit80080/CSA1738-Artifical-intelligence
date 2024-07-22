@@ -1,0 +1,35 @@
+# Example graph represented as an adjacency list
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+# Starting node
+start = 'A'
+
+# Create a stack for DFS
+stack = [start]
+
+# Set of visited nodes to avoid revisiting
+visited = set()
+
+while stack:
+    # Pop a vertex from the stack
+    vertex = stack.pop()
+    
+    if vertex not in visited:
+        # Print the popped vertex
+        print(vertex, end=" ")
+        
+        # Mark the vertex as visited
+        visited.add(vertex)
+        
+        # Get all adjacent vertices of the popped vertex
+        for neighbor in reversed(graph[vertex]):
+            if neighbor not in visited:
+                # If an adjacent vertex has not been visited, push it onto the stack
+                stack.append(neighbor)
