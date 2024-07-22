@@ -1,0 +1,48 @@
+# Define the map as a graph where keys are regions and values are lists of adjacent regions
+graph = {
+    'A': ['B', 'C', 'D'],
+    'B': ['A', 'C', 'E'],
+    'C': ['A', 'B', 'D', 'E'],
+    'D': ['A', 'C', 'E'],
+    'E': ['B', 'C', 'D']
+}
+
+# Define the colors to be used
+colors = ['Red', 'Green', 'Blue']
+
+# Initialize the coloring dictionary
+coloring = {}
+
+# Create a list of uncolored regions
+uncolored_regions = list(graph.keys())
+
+# Backtracking to color the regions
+stack = [(0, {})]
+while stack:
+    index, current_coloring = stack.pop()
+    
+    if index == len(uncolored_regions):
+        coloring = current_coloring
+        break
+
+    region = uncolored_regions[index]
+    
+    for color in colors:
+        # Check if the color is valid
+        valid = True
+        for neighbor in graph[region]:
+            if neighbor in current_coloring and current_coloring[neighbor] == color:
+                valid = False
+                break
+        
+        if valid:
+            new_coloring = current_coloring.copy()
+            new_coloring[region] = color
+            stack.append((index + 1, new_coloring))
+
+if coloring:
+    print("Solution found:")
+    for region, color in coloring.items():
+        print(f"Region {region}: {color}")
+else:
+    print("No solution exists.")
