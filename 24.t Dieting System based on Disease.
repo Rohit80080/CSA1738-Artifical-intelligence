@@ -1,0 +1,10 @@
+% Define diseases and their corresponding diet suggestions
+diet_suggestion(diabetes, 'Low sugar diet with high fiber and complex carbohydrates. Avoid sugary foods and drinks. Include whole grains, vegetables, and lean proteins.').
+diet_suggestion(hypertension, 'Low sodium diet rich in fruits, vegetables, whole grains, and low-fat dairy. Avoid processed foods and excessive salt. Include potassium-rich foods like bananas and spinach.').
+diet_suggestion(coronary_heart_disease, 'Heart-healthy diet with lean proteins, healthy fats, and whole grains. Avoid trans fats, saturated fats, and high-cholesterol foods. Include plenty of fruits and vegetables.').
+diet_suggestion(anemia, 'Iron-rich diet with lean meats, beans, lentils, and leafy green vegetables. Include vitamin C-rich foods to enhance iron absorption. Avoid tea and coffee with meals.').
+diet_suggestion(obesity, 'Balanced diet with portion control. Focus on whole grains, lean proteins, fruits, and vegetables. Avoid high-calorie, sugary, and fatty foods. Increase physical activity.').
+
+% Define a rule to get a diet suggestgetion based on disease
+get_diet_suggestion(Disease, Suggestion) :-
+    diet_suggestion(Disease, Suggestion).
