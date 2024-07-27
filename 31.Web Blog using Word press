@@ -1,0 +1,24 @@
+<h1>Welcome to My WordPress Blog</h1>
+
+<p>This blog post demonstrates the use of various HTML tags.</p>
+
+<h2>Using Anchor Tags</h2>
+<p>Click <a href="https://www.example.com">here</a> to visit an external site.</p>
+<p>Navigate to <a href="#section2">Subheading 2</a>.</p>
+
+<h2 id="section1">Subheading 1</h2>
+<p>This is content under Subheading 1. <a href="#section2">Go to Subheading 2</a></p>
+
+<h2 id="section2">Subheading 2</h2>
+<p>This is content under Subheading 2. <a href="#section1">Back to Subheading 1</a></p>
+
+<h2>Lists and Formatting</h2>
+<ul>
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+</ul>
+
+<p>This is <em>italic</em> text and this is <strong>bold</strong> text.</p>
+
+<img src="https://www.example.com/image.jpg" alt="Description of the image">
